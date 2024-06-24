@@ -19,12 +19,25 @@ def main():
         # 绘制背景图片
         init.screen.blit(init.background_img, (0, 0))
         # 绘制关卡
-        init.level.draw(init.screen)
+        init.current_level.draw(init.screen)
 
         # 移动玩家
-        init.player.move(keys, init.delta_time, init.level.get_wall_tiles(), init.level.get_trap_tiles())
+        init.player.move(keys,
+                         init.delta_time,
+                         init.current_level.get_wall_tiles(),
+                         init.current_level.get_trap_tiles())
         # 绘制玩家
         init.player.draw(init.screen)
+
+        # 检查是否需要切换关卡
+        if init.player.rect.right >= init.screen_width:
+            init.current_level_index += 1
+            if init.current_level_index < len(init.levels):
+                init.current_level = init.levels[init.current_level_index]
+                init.player.reset_position()
+            else:
+                init.current_level_index = 0  # 重置关卡索引
+                passed_menu()
 
         # 更新屏幕显示
         pg.display.flip()

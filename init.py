@@ -3,6 +3,7 @@ import pygame as pg
 import os
 from source.sprites.player import Player
 from source.levels.level1 import Level1
+from source.levels.level2 import Level2
 
 # 初始化Pygame
 pg.init()
@@ -80,4 +81,8 @@ text_rect2 = text2.get_rect()
 text_rect2.center = (400, 100)
 
 # 创建关卡实例
-level = Level1()
+level1 = Level1()
+level2 = Level2()
+levels = [level1, level2]
+current_level_index = 0
+current_level = levels[current_level_index]

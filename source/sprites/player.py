@@ -67,6 +67,7 @@ class Player:
                 return True
         return False
 
+
     def load_jump_animation(self, jump_image_path):
         jump_image = pg.image.load(jump_image_path).convert_alpha()
         for i in range(8):  # 从256*32的图片中切分出8个32*32的帧
@@ -127,7 +128,7 @@ class Player:
         if self.check_trap_collision(trap_tiles):
             died_menu()
 
-            # 用于控制动画帧切换的计时器
+        # 用于控制动画帧切换的计时器
         current_time = pg.time.get_ticks()
         if current_time - self.animation_timer > 100:  # 200毫秒切换一次动画帧
             if self.state == 'walk':

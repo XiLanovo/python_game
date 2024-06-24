@@ -13,6 +13,9 @@ def passed_menu():
                 running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if init.restart_game_button_rect.collidepoint(pg.mouse.get_pos()):
+                    init.current_level_index = 0  # 重置关卡索引
+                    init.current_level = init.levels[init.current_level_index]  # 重置当前关卡
+                    init.player.reset_position()  # 重置玩家位置
                     source.states.start_menu.start_menu()
                 elif init.end_button_rect.collidepoint(pg.mouse.get_pos()):
                     running = False
