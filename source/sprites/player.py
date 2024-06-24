@@ -1,8 +1,6 @@
-# player.py
 import pygame as pg
 from pygame.locals import *
 from source.states.died_menu import died_menu
-
 
 class Player:
     def __init__(self, x, y, image_path, walk_image_path, jump_image_path, screen_width, screen_height):
@@ -10,6 +8,7 @@ class Player:
         self.initial_y = y
         self.image = pg.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect(topleft=(x, y))
+        self.mask = pg.mask.from_surface(self.image)  # 创建遮罩
 
         self.walk_images = [self.image]  # 初始行走帧列表包含站立图像
         self.load_walk_animation(walk_image_path)
@@ -40,7 +39,7 @@ class Player:
 
     def check_wall_collision_x(self, wall_tiles, dx):
         for tile in wall_tiles:
-            if self.rect.colliderect(tile.rect):
+            if self.rect.colliderect(tile.rect):  # 使用矩形进行碰撞检测
                 if dx > 0:
                     self.rect.right = tile.rect.left
                 elif dx < 0:
@@ -48,7 +47,7 @@ class Player:
 
     def check_wall_collision_y(self, wall_tiles):
         for tile in wall_tiles:
-            if self.rect.colliderect(tile.rect):
+            if pg.sprite.collide_mask(self, tile):  # 使用遮罩进行碰撞检测
                 if self.velocity_y < 0:
                     self.rect.top = tile.rect.bottom
                     self.velocity_y = 0  # 碰到墙体时向上速度变为0
@@ -63,10 +62,9 @@ class Player:
 
     def check_trap_collision(self, trap_tiles):
         for tile in trap_tiles:
-            if self.rect.colliderect(tile.rect):
+            if pg.sprite.collide_mask(self, tile):  # 使用遮罩进行碰撞检测
                 return True
         return False
-
 
     def load_jump_animation(self, jump_image_path):
         jump_image = pg.image.load(jump_image_path).convert_alpha()
@@ -160,6 +158,7 @@ class Player:
         if self.facing_left:
             image_to_draw = pg.transform.flip(image_to_draw, True, False)
         screen.blit(image_to_draw, self.rect.topleft)
+        self.mask = pg.mask.from_surface(image_to_draw)  # 更新遮罩
 
     def move(self, keys, delta_time, wall_tiles, trap_tiles):
         # 水平移动
@@ -208,7 +207,7 @@ class Player:
     def check_fall(self, wall_tiles):
         self.rect.y += 1  # 向下试探1个像素
         for tile in wall_tiles:
-            if self.rect.colliderect(tile.rect):
+            if pg.sprite.collide_mask(self, tile):  # 使用遮罩进行碰撞检测
                 self.rect.y -= 1  # 恢复位置
                 return
         self.rect.y -= 1  # 恢复位置

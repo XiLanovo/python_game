@@ -30,6 +30,7 @@ class TrapTerrain:
                     tile = Sprite()
                     tile.image = tile_image
                     tile.rect = tile_rect
+                    tile.mask = pygame.mask.from_surface(tile_image)  # 创建遮罩
                     tiles.append(tile)
         return tiles
 
