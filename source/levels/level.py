@@ -11,3 +11,6 @@ class BaseLevel:
     def draw(self, screen):
         self.trap_terrain.draw(screen)
         self.wall_terrain.draw(screen)
+
+    def get_wall_tiles(self):
+        return self.wall_terrain.tiles

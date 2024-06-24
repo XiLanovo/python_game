@@ -22,7 +22,7 @@ def main():
         init.level.draw(init.screen)
 
         # 移动玩家
-        init.player.move(keys, init.delta_time)
+        init.player.move(keys, init.delta_time, init.level.get_wall_tiles())
         # 绘制玩家
         init.player.draw(init.screen)
 

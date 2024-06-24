@@ -35,6 +35,29 @@ class Player:
         self.jump_frame_index = 0
         self.fall_frame_index = 0
 
+    def check_wall_collision_x(self, wall_tiles, dx):
+        for tile in wall_tiles:
+            if self.rect.colliderect(tile.rect):
+                if dx > 0:
+                    self.rect.right = tile.rect.left
+                elif dx < 0:
+                    self.rect.left = tile.rect.right
+
+    def check_wall_collision_y(self, wall_tiles):
+        for tile in wall_tiles:
+            if self.rect.colliderect(tile.rect):
+                if self.velocity_y < 0:
+                    self.rect.top = tile.rect.bottom
+                    self.velocity_y = 0  # 碰到墙体时向上速度变为0
+                elif self.velocity_y > 0:
+                    self.rect.bottom = tile.rect.top
+                    self.velocity_y = 0
+                    self.on_ground = True
+                    self.double_jumped = False
+                    self.jump_frame_index = 0
+                    self.fall_frame_index = 0
+                    self.state = 'stand'
+
     def load_jump_animation(self, jump_image_path):
         jump_image = pg.image.load(jump_image_path).convert_alpha()
         for i in range(8):  # 从256*32的图片中切分出8个32*32的帧
@@ -50,7 +73,7 @@ class Player:
             frame = walk_image.subsurface(pg.Rect(i * 32, 0, 32, 32))
             self.walk_images.append(frame)
 
-    def update(self):
+    def update(self, wall_tiles):
         # 如果玩家不在地面上，应用重力
         if not self.on_ground:
             self.velocity_y += self.gravity
@@ -64,6 +87,7 @@ class Player:
 
             # 应用垂直速度
             self.rect.y += self.velocity_y
+            self.check_wall_collision_y(wall_tiles)
 
             # 检查是否到达地面
             if self.rect.bottom > self.screen_height:
@@ -74,6 +98,10 @@ class Player:
                 self.jump_frame_index = 0  # 重置跳跃帧索引
                 self.fall_frame_index = 0  # 重置下落帧索引
                 self.state = 'stand'
+
+            # 检查玩家脚下是否有墙体
+        if self.on_ground:
+            self.check_fall(wall_tiles)
 
             # 用于控制动画帧切换的计时器
         current_time = pg.time.get_ticks()
@@ -108,15 +136,17 @@ class Player:
             image_to_draw = pg.transform.flip(image_to_draw, True, False)
         screen.blit(image_to_draw, self.rect.topleft)
 
-    def move(self, keys, delta_time):
+    def move(self, keys, delta_time, wall_tiles):
         # 水平移动
         if keys[K_a]:
             self.rect.x -= self.walk_speed
+            self.check_wall_collision_x(wall_tiles, -self.walk_speed)
             self.facing_left = True
             if self.on_ground:
                 self.state = 'walk'
         elif keys[K_d]:
             self.rect.x += self.walk_speed
+            self.check_wall_collision_x(wall_tiles, self.walk_speed)
             self.facing_left = False
             if self.on_ground:
                 self.state = 'walk'
@@ -141,11 +171,21 @@ class Player:
                 self.double_jumped = True  # 标记已进行第二段跳跃
             else:
                 # 跳跃后立即应用重力
-                self.update()
+                self.update(wall_tiles)
 
         self.rect.x += self.velocity_x  # 更新位置
-        self.update()
+        self.update(wall_tiles)
 
         # 确保玩家不会移出屏幕边界
         self.rect.x = max(0, min(self.screen_width - self.image.get_width(), self.rect.x))
         self.rect.y = max(0, min(self.screen_height - self.image.get_height(), self.rect.y))
+
+    def check_fall(self, wall_tiles):
+        self.rect.y += 1  # 向下试探1个像素
+        for tile in wall_tiles:
+            if self.rect.colliderect(tile.rect):
+                self.rect.y -= 1  # 恢复位置
+                return
+        self.rect.y -= 1  # 恢复位置
+        self.on_ground = False
+        self.state = 'fall'
