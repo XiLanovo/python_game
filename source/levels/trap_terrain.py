@@ -1,11 +1,12 @@
 # wall_terrain.py
 import pygame
 import json
-from pygame.sprite import Sprite
+from pygame.sprite import Sprite ,Group
 
 
 class TrapTerrain:
     def __init__(self, json_file):
+        self.tiles = Group()
         self.tiles = self.load_trap_terrain(json_file)
 
     def load_trap_terrain(self, json_file):

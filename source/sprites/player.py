@@ -105,6 +105,9 @@ class Player:
                 self.fall_frame_index = 0  # 重置下落帧索引
                 self.state = 'stand'
 
+        if self.rect.bottom >= self.screen_height:
+            died_menu()
+
             # 检查玩家脚下是否有墙体
         if self.on_ground:
             self.check_fall(wall_tiles)
