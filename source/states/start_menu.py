@@ -2,6 +2,7 @@
 import pygame as pg
 import init
 import source.states.main
+import source.states.died_menu
 
 
 def start_menu():
@@ -16,8 +17,10 @@ def start_menu():
                 if init.start_button_rect.collidepoint(pg.mouse.get_pos()):
                     source.states.main.main()
                 elif init.end_button_rect.collidepoint(pg.mouse.get_pos()):
-                    running = False
+                    source.states.died_menu.died_menu()
 
         init.screen.blit(init.start_button_img, init.start_button_rect)
         init.screen.blit(init.end_button_img, init.end_button_rect)
         pg.display.flip()
+
+    pg.quit()
