@@ -1,7 +1,7 @@
 # player.py
 import pygame as pg
 from pygame.locals import *
-
+from source.states.died_menu import died_menu
 
 class Player:
     def __init__(self, x, y, image_path, walk_image_path, jump_image_path, screen_width, screen_height):
@@ -58,6 +58,12 @@ class Player:
                     self.fall_frame_index = 0
                     self.state = 'stand'
 
+    def check_trap_collision(self, trap_tiles):
+        for tile in trap_tiles:
+            if self.rect.colliderect(tile.rect):
+                return True
+        return False
+
     def load_jump_animation(self, jump_image_path):
         jump_image = pg.image.load(jump_image_path).convert_alpha()
         for i in range(8):  # 从256*32的图片中切分出8个32*32的帧
@@ -73,7 +79,7 @@ class Player:
             frame = walk_image.subsurface(pg.Rect(i * 32, 0, 32, 32))
             self.walk_images.append(frame)
 
-    def update(self, wall_tiles):
+    def update(self, wall_tiles, trap_tiles):
         # 如果玩家不在地面上，应用重力
         if not self.on_ground:
             self.velocity_y += self.gravity
@@ -102,6 +108,10 @@ class Player:
             # 检查玩家脚下是否有墙体
         if self.on_ground:
             self.check_fall(wall_tiles)
+
+        # 检查玩家是否碰到了陷阱
+        if self.check_trap_collision(trap_tiles):
+            died_menu()
 
             # 用于控制动画帧切换的计时器
         current_time = pg.time.get_ticks()
@@ -136,7 +146,7 @@ class Player:
             image_to_draw = pg.transform.flip(image_to_draw, True, False)
         screen.blit(image_to_draw, self.rect.topleft)
 
-    def move(self, keys, delta_time, wall_tiles):
+    def move(self, keys, delta_time, wall_tiles, trap_tiles):
         # 水平移动
         if keys[K_a]:
             self.rect.x -= self.walk_speed
@@ -171,10 +181,10 @@ class Player:
                 self.double_jumped = True  # 标记已进行第二段跳跃
             else:
                 # 跳跃后立即应用重力
-                self.update(wall_tiles)
+                self.update(wall_tiles, trap_tiles)
 
         self.rect.x += self.velocity_x  # 更新位置
-        self.update(wall_tiles)
+        self.update(wall_tiles, trap_tiles)
 
         # 确保玩家不会移出屏幕边界
         self.rect.x = max(0, min(self.screen_width - self.image.get_width(), self.rect.x))

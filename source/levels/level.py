@@ -14,3 +14,7 @@ class BaseLevel:
 
     def get_wall_tiles(self):
         return self.wall_terrain.tiles
+
+    def get_trap_tiles(self):
+        return self.trap_terrain.tiles
+
