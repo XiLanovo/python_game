@@ -15,9 +15,10 @@ def start_menu():
                 running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if init.start_button_rect.collidepoint(pg.mouse.get_pos()):
+                    init.player.reset_position()  # 重置玩家位置
                     source.states.main.main()
                 elif init.end_button_rect.collidepoint(pg.mouse.get_pos()):
-                    source.states.died_menu.died_menu()
+                    running = False
 
         init.screen.blit(init.start_button_img, init.start_button_rect)
         init.screen.blit(init.end_button_img, init.end_button_rect)

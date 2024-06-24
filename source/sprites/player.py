@@ -3,8 +3,11 @@ import pygame as pg
 from pygame.locals import *
 from source.states.died_menu import died_menu
 
+
 class Player:
     def __init__(self, x, y, image_path, walk_image_path, jump_image_path, screen_width, screen_height):
+        self.initial_x = x
+        self.initial_y = y
         self.image = pg.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect(topleft=(x, y))
 
@@ -78,6 +81,14 @@ class Player:
         for i in range(6):  # 从192*32的图片中切分出6个32*32的帧
             frame = walk_image.subsurface(pg.Rect(i * 32, 0, 32, 32))
             self.walk_images.append(frame)
+
+    def reset_position(self):
+        self.rect.topleft = (self.initial_x, self.initial_y)
+        self.velocity_x = 0
+        self.velocity_y = 0
+        self.on_ground = True
+        self.state = 'stand'
+        self.current_image = self.image
 
     def update(self, wall_tiles, trap_tiles):
         # 如果玩家不在地面上，应用重力

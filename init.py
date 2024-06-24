@@ -15,12 +15,15 @@ clock = pg.time.Clock()
 fps = 45
 delta_time = clock.tick(24) / 1000.0  # 计算每秒流逝的时间
 
+# 玩家初始位置
+initial_player_position = (32, 608 - 32)
+
 # 加载玩家图片
 player_image_path = os.path.join(os.getcwd(), 'source', 'assets', 'images', 'player_stand.png')
 player_walk_image_path = os.path.join(os.getcwd(), 'source', 'assets', 'images', 'player_walk.png')
 player_jump_image_path = os.path.join(os.getcwd(), 'source', 'assets', 'images', 'player_jump.png')
 
-player = Player(32, 608 - 32,
+player = Player(*initial_player_position,
                 player_image_path,
                 player_walk_image_path,
                 player_jump_image_path,

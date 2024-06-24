@@ -13,6 +13,7 @@ def died_menu():
                 running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if init.restart_button_rect.collidepoint(pg.mouse.get_pos()):
+                    init.player.reset_position()  # 重置玩家位置
                     source.states.main.main()
 
         init.screen.blit(init.restart_button_img, init.restart_button_rect)
