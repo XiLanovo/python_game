@@ -2,6 +2,7 @@ import pygame as pg
 from pygame.locals import *
 from source.states.died_menu import died_menu
 
+
 class Player:
     def __init__(self, x, y, image_path, walk_image_path, jump_image_path, screen_width, screen_height):
         # 初始化玩家的起始位置和基本属性
@@ -132,8 +133,6 @@ class Player:
             self.check_fall(wall_tiles)
 
         if self.check_trap_collision(trap_tiles):
-            pg.mixer.music.stop()
-            pg.mixer.music.unload()
             died_menu()
 
         current_time = pg.time.get_ticks()
