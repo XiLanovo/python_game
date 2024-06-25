@@ -1,6 +1,8 @@
+# player.py
 import pygame as pg
 from pygame.locals import *
 from source.states.died_menu import died_menu
+
 
 class Player:
     def __init__(self, x, y, image_path, walk_image_path, jump_image_path, screen_width, screen_height):
@@ -39,7 +41,7 @@ class Player:
 
     def check_wall_collision_x(self, wall_tiles, dx):
         for tile in wall_tiles:
-            if self.rect.colliderect(tile.rect):  # 使用矩形进行碰撞检测
+            if self.rect.colliderect(tile.rect):
                 if dx > 0:
                     self.rect.right = tile.rect.left
                 elif dx < 0:
@@ -47,7 +49,7 @@ class Player:
 
     def check_wall_collision_y(self, wall_tiles):
         for tile in wall_tiles:
-            if pg.sprite.collide_mask(self, tile):  # 使用遮罩进行碰撞检测
+            if self.rect.colliderect(tile.rect):
                 if self.velocity_y < 0:
                     self.rect.top = tile.rect.bottom
                     self.velocity_y = 0  # 碰到墙体时向上速度变为0
@@ -65,6 +67,7 @@ class Player:
             if pg.sprite.collide_mask(self, tile):  # 使用遮罩进行碰撞检测
                 return True
         return False
+
 
     def load_jump_animation(self, jump_image_path):
         jump_image = pg.image.load(jump_image_path).convert_alpha()
@@ -158,7 +161,6 @@ class Player:
         if self.facing_left:
             image_to_draw = pg.transform.flip(image_to_draw, True, False)
         screen.blit(image_to_draw, self.rect.topleft)
-        self.mask = pg.mask.from_surface(image_to_draw)  # 更新遮罩
 
     def move(self, keys, delta_time, wall_tiles, trap_tiles):
         # 水平移动
