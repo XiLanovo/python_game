@@ -34,8 +34,11 @@ class TrapTerrain:
             for row in range(len(layout)):
                 for col in range(len(layout[row])):
                     tile_type = layout[row][col]
-                    if tile_type == 1:  # Tile类型，加载陷阱图像
+                    # Tile类型，加载陷阱图像
+                    if tile_type == 1:
                         image_path = 'source/assets/images/spike.png'
+                    elif tile_type == 2:
+                        image_path = 'source/assets/images/spike1.png'
                     elif tile_type == 0:  # 空空间，跳过
                         continue
 
