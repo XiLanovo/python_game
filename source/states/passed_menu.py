@@ -8,6 +8,8 @@ def passed_menu():
     """
     游戏通过菜单，显示游戏通过的信息，并提供重新开始游戏或退出的选项。
     """
+    pg.mixer.music.load('source/music/end.mp3')
+    pg.mixer.music.play()
     running = True
     while running:
         # 绘制游戏通过菜单背景和文本
