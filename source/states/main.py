@@ -5,6 +5,8 @@ from source.states.passed_menu import passed_menu
 
 
 def main():
+    pg.mixer.music.load("source/music/gaming.mp3")
+    pg.mixer.music.play()
     running = True
     while running:
         keys = pg.key.get_pressed()

@@ -124,12 +124,16 @@ class Player:
                 self.state = 'stand'
 
         if self.rect.bottom >= self.screen_height:
+            pg.mixer.music.stop()
+            pg.mixer.music.unload()
             died_menu()
 
         if self.on_ground:
             self.check_fall(wall_tiles)
 
         if self.check_trap_collision(trap_tiles):
+            pg.mixer.music.stop()
+            pg.mixer.music.unload()
             died_menu()
 
         current_time = pg.time.get_ticks()

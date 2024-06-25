@@ -6,7 +6,7 @@ from source.levels.level2 import Level2
 
 # 初始化Pygame
 pg.init()
-
+pg.mixer.init()
 # 设置基础路径
 BASE_IMAGE_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'images')
 BASE_FONT_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'fonts', 'Boxy-Bold.ttf')
@@ -91,3 +91,5 @@ level2 = Level2()
 levels = [level1, level2]
 current_level_index = 0
 current_level = levels[current_level_index]
+
+#音乐

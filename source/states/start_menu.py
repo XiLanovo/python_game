@@ -4,10 +4,13 @@ import init
 import source.states.main
 import source.states.died_menu
 
+
 def start_menu():
     """
     游戏开始菜单，显示游戏开始和退出选项。
     """
+    pg.mixer.music.load("source/music/begin.mp3")
+    pg.mixer.music.play()
     running = True
     while running:
         # 绘制开始菜单背景
@@ -21,6 +24,8 @@ def start_menu():
             elif event.type == pg.MOUSEBUTTONDOWN:
                 # 如果鼠标点击，检查是否点击了开始游戏按钮的区域
                 if init.start_button_rect.collidepoint(pg.mouse.get_pos()):
+                    pg.mixer.music.stop()
+                    pg.mixer.music.unload()
                     # 重置玩家位置和状态
                     init.player.reset_position()
                     # 进入游戏主循环
