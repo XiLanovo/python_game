@@ -1,4 +1,4 @@
-#   Main.py
+#   main.py
 import source.states.start_menu as start_menu
 import pygame as pg
 import sys

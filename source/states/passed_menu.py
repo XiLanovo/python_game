@@ -1,3 +1,4 @@
+# passed_menu.py
 import pygame as pg
 import init
 import source.states.start_menu
@@ -7,8 +8,8 @@ def passed_menu():
     """
     游戏通过菜单，显示游戏通过的信息，并提供重新开始游戏或退出的选项。
     """
-    pg.mixer.music.load('source/music/end.mp3')
-    pg.mixer.music.play()
+    # 在进入死亡菜单时播放音乐
+    init.play_music('passed.mp3', 0)
     running = True
     while running:
         # 绘制游戏通过菜单背景和文本

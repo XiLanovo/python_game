@@ -1,3 +1,4 @@
+# died_menu.py
 import pygame as pg
 import init
 import source.states.main
@@ -7,8 +8,8 @@ def died_menu():
     """
     玩家死亡菜单，显示死亡信息并提供重新开始游戏的选项。
     """
-    pg.mixer.music.load('source/music/end.mp3')
-    pg.mixer.music.play()
+    # 在进入死亡菜单时播放音乐
+    init.play_music('died.mp3', 0)
     running = True
     while running:
         # 绘制死亡菜单背景和文本
@@ -23,8 +24,6 @@ def died_menu():
             elif event.type == pg.MOUSEBUTTONDOWN:
                 # 如果鼠标点击，检查是否点击了重新开始按钮的区域
                 if init.restart_button_rect.collidepoint(pg.mouse.get_pos()):
-                    pg.mixer.music.stop()
-                    pg.mixer.music.unload()
                     # 重置玩家位置和状态
                     init.player.reset_position()
                     # 重新进入游戏主循环
