@@ -1,3 +1,4 @@
+# init.py
 import pygame as pg
 import os
 from source.sprites.player import Player
@@ -10,7 +11,7 @@ pg.mixer.init()
 # 设置基础路径
 BASE_IMAGE_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'images')
 BASE_FONT_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'fonts', 'Boxy-Bold.ttf')
-
+BASE_SOUND_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'sounds')
 
 # 加载和缩放图片的函数
 def load_and_scale_image(image_name, width, height):
@@ -85,9 +86,21 @@ text_rect = text.get_rect(center=(400, 200))
 text2 = render_text('Mission Accomplished!', 50)
 text_rect2 = text2.get_rect(center=(400, 100))
 
-# 创建关卡实例列表
-levels = [Level1(), Level2()]
+
+def play_music(music_name, loops):
+    # 构建音乐文件的完整路径
+    music_path = os.path.join(BASE_SOUND_PATH, music_name)
+    # 加载并播放音乐
+    if pg.mixer.music.get_busy():  # 检查音乐是否已经在播放
+        pg.mixer.music.stop()  # 如果是，停止当前音乐
+    pg.mixer.music.load(music_path)  # 加载新的音乐文件
+    pg.mixer.music.play(loops)  # 播放音乐，loops=-1 表示无限循环
+
+
+
+# 创建关卡实例
+level1 = Level1()
+level2 = Level2()
+levels = [level1, level2]
 current_level_index = 0
 current_level = levels[current_level_index]
-
-#音乐
