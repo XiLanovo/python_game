@@ -4,6 +4,7 @@ import init
 import source.states.main
 import source.states.died_menu
 
+
 def start_menu():
     """
     游戏开始菜单，显示游戏开始和退出选项。

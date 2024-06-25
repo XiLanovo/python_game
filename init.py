@@ -1,3 +1,4 @@
+# init.py
 import pygame as pg
 import os
 from source.sprites.player import Player
@@ -84,6 +85,19 @@ text = render_text('You dead!', 50)
 text_rect = text.get_rect(center=(400, 200))
 text2 = render_text('Mission Accomplished!', 50)
 text_rect2 = text2.get_rect(center=(400, 100))
+
+
+# 新增音频初始化和播放的函数
+def initialize_audio(audio_file_path):
+    pg.mixer.init()
+    pg.mixer.music.load(audio_file_path)
+    pg.mixer.music.play(-1)
+
+
+# 在已有的初始化代码中调用音频初始化函数
+audio_file_path = os.path.join(os.getcwd(), 'source', 'assets', 'sounds', 'your_audio_file.mp3')
+initialize_audio(audio_file_path)
+
 
 # 创建关卡实例
 level1 = Level1()
