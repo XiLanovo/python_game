@@ -11,8 +11,6 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            elif event.type == pg.MOUSEBUTTONDOWN:
-                passed_menu()
 
         # 填充屏幕背景色
         init.screen.fill((0, 0, 0))
