@@ -13,6 +13,7 @@ BASE_IMAGE_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'images')
 BASE_FONT_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'fonts', 'Boxy-Bold.ttf')
 BASE_SOUND_PATH = os.path.join(os.getcwd(), 'source', 'assets', 'sounds')
 
+
 # 加载和缩放图片的函数
 def load_and_scale_image(image_name, width, height):
     image_path = get_image_path(image_name)
@@ -97,10 +98,7 @@ def play_music(music_name, loops):
     pg.mixer.music.play(loops)  # 播放音乐，loops=-1 表示无限循环
 
 
-
 # 创建关卡实例
-level1 = Level1()
-level2 = Level2()
-levels = [level1, level2]
+levels = [Level1(), Level2()]
 current_level_index = 0
 current_level = levels[current_level_index]

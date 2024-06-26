@@ -39,6 +39,8 @@ class TrapTerrain:
                         image_path = 'source/assets/images/spike.png'
                     elif tile_type == 2:
                         image_path = 'source/assets/images/spike1.png'
+                    elif tile_type == 3:
+                        image_path = 'source/assets/images/spike2.png'
                     elif tile_type == 0:  # 空空间，跳过
                         continue
 
